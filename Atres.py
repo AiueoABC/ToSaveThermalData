@@ -7,6 +7,12 @@ import numpy as np
 
 
 class atres:
+    """
+    int16KelvinArray => numpy array using uint16, for exaple, each
+                        data in array looks like 27315 at 273.15 K
+    save => to check
+    atresimg => this will contain temperature data as rgb data
+    """
     def temp2color(self, int16KelvinArray, save=True):
         bStack, gStack = np.uint8(divmod(int16KelvinArray, 256))
         rStack = _raw_to_8bit(int16KelvinArray)
@@ -31,6 +37,9 @@ class atres:
             cv2.imwrite("AtresDataRAW.png", atresimg)
         return atresimg
 
+    """
+    atresimg => this should be the img come through above functions
+    """
     def atresimg2temp(self, atresimg):
         upperStack, lowerStack, _ = cv2.split(atresimg)
         int16KelvinArray = np.uint16(upperStack * 256 + lowerStack)
